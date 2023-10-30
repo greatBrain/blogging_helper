@@ -2,10 +2,10 @@ from modules import observer
 
 
 if __name__=='__main__':
-   observer_instance = observer.Main()
+   observer_instance = observer.Main()   
 
-   try:
+   try:  
       observer_instance.run()
                      
-   except ExceptionGroup:
-         pass
+   except Exception as e:
+      raise ("Failed to run the program.", e)

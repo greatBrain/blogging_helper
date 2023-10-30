@@ -4,12 +4,13 @@ from pathlib import Path
 from  modules.validator import Validator
 import os
 
-class EventHandler(FileSystemEventHandler):
+class EventHandler(FileSystemEventHandler):          
 
-      def on_created(self, event):                                      
-          file= Path(event.src_path).name     
-          Validator.validate(os.path.splitext(file))              
-
+      def on_created(self, event):         
+          file_full_path = Path(event.src_path)          
+          file_name_splited = os.path.splitext(Path(event.src_path).name)    
+          validator = Validator()
+          validator.validate(file_full_path, file_name_splited)
 
 class Main:
      def __init__(self):
@@ -18,7 +19,7 @@ class Main:
      def run(self):
          
          #Monitors each event at current directory: 
-         self.observer.schedule(EventHandler(), "./files", recursive=True)
+         self.observer.schedule(EventHandler(), "../files", recursive=True)
          self.observer.start()
 
          try:
