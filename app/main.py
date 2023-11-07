@@ -6,5 +6,5 @@ if __name__=='__main__':
    try:            
       observer_instance.run()
                      
-   except Exception as e:
-      raise ("Failed to run the program.", e)
+   except RuntimeError as e:
+      raise("Failed to run the program.", e)

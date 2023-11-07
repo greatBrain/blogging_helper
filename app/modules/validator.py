@@ -5,7 +5,7 @@ class Validator:
           self.IMAGE_FORMATS = [".jpg", ".jpeg", ".png", ".webp", ".tiff", ".gif"]      
           self.manager = File_Manager() 
 
-      def validate(self, file_full_path, file_name_splited=tuple):  
+      def validate_files(self, file_full_path, file_name_splited=tuple):  
 
          try:
 
@@ -13,10 +13,9 @@ class Validator:
                print(self.manager.read_document(file_full_path))
 
             elif file_name_splited[1] in self.IMAGE_FORMATS:             
-               self.manager.optimize_img()
+               print(self.manager.optimize_img(file_full_path, file_name_splited[1]))
 
-            return "Just docx and image format accepted"
+            return "Just .docx or image format accepted"
          
-         except Exception as e:           
-            raise ("Wrong file, try again.". e)
-      
+         except FileNotFoundError as e:           
+            raise ("Wrong file, try again.", e)
