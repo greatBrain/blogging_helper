@@ -3,7 +3,7 @@ import docx
 class File_Manager:          
       
       def __init__(self) -> None:
-          self.data_file = None
+          self.data_file = None          
 
       def read_document(self, _file):
           try:           
@@ -12,7 +12,7 @@ class File_Manager:
             return self.data_file          
 
           except Exception as e:  
-            return ("Something is wrong:", e)          
+            return ("Something is wrong:", e)        
      
      
       def optimize_img(self, img):          
