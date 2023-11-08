@@ -19,10 +19,10 @@ class File_Manager:
       def optimize_img(self, img_full_name, extension):          
           try:
               tinify.key = helpers.get_tinify_api() 
-              optimized_image = tinify.from_file(img_full_name).to_file("image_optimized{}".format(extension))
-              
+              optimized_image = tinify.from_file(img_full_name).to_file("image_optimized{}".format(extension))             
               
               #return optimized_image
+              return True
               
               
           except ConnectionError as  e:
