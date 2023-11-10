@@ -1,11 +1,13 @@
 import docx
 import modules.helpers as helpers
 import tinify #Tiny PNG API
+import os
 
 class File_Manager:          
       
       def __init__(self) -> None:
           self.data_file = None
+          self.files_directory = "../files" # Original dir where user downloads files.
 
       def read_document(self, _file):
           try:           
@@ -19,7 +21,7 @@ class File_Manager:
       def optimize_img(self, img_full_name, extension):          
           try:
               tinify.key = helpers.get_tinify_api() 
-              optimized_image = tinify.from_file(img_full_name).to_file("image_optimized{}".format(extension))             
+              optimized_image = tinify.from_file(img_full_name).to_file(os.path.join(self.files_directory, "_optimized{}".format(extension)))             
               
               #return optimized_image
               return True

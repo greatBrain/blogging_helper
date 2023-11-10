@@ -15,8 +15,7 @@ class EventHandler(FileSystemEventHandler):
 class Main:
      def __init__(self):
          self.observer = Observer()                           
-         self.files_directory = "../files"         
-
+         self.files_directory = "../files"
 
      def run(self): 
          
@@ -24,7 +23,7 @@ class Main:
          os.path.normpath(self.files_directory) 
 
          #Monitors each event at current directory: 
-         self.observer.schedule(EventHandler(),self.files_directory, recursive=True)
+         self.observer.schedule(EventHandler(), self.files_directory, recursive=True)
          self.observer.start()
 
          try:
