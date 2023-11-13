@@ -1,10 +1,9 @@
 import docx
-import modules.helpers as helpers
 #import tinify #Tiny PNG API
 
 class File_Manager:          
       
-      def __init__(self) -> None:
+      def __init__(self):
           self.data_file = None
           self.image = None
 
@@ -15,8 +14,10 @@ class File_Manager:
             return self.data_file          
 
           except Exception as e:  
-            return ("Something is wrong:", e)    
+            return ("Something is wrong:", e)  
 
+      #Find patterns in data file:
+      
 
       def set_image(self, image):
           self.image = image  
@@ -26,7 +27,6 @@ class File_Manager:
           return self.image
       
 
-      #Instead optimizing the images at local, i installed the Tiny optimizer in the site.
 
       '''def optimize_img(self, img_full_name, extension):          
           try:
