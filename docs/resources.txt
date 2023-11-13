@@ -1,0 +1,6 @@
+Python-docx text manipulation example:
+https://python-forum.io/thread-22263.html
+
+Python-docx text manipulation documentation:
+
+https://python-docx.readthedocs.io/en/latest/user/text.html
