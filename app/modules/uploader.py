@@ -1,20 +1,25 @@
 import docx
 import mechanicalsoup as mechsoup
+from modules.file_manager import File_Manager as FM
 
 class Uploader:
       def __init__(self):
           self.browser_con = mechsoup.Browser()                
-          self.BLOG_URL = ""          
+          self.URL = ""    
 
 
       ''' Connecting with browser and getting web html'''
-      async def get_web_page(self):          
-          web_page = self.browser_con.get(self.BLOG_URL)
+      def get_page_body(self):          
+          web_page = self.browser_con.get(self.URL)
           page_html = web_page.soup
           return page_html     
 
       
-      async def fill_fields(self, doc_text):
+      def fill_text_fields(self, doc_text):
           form = self.get_web_page.select("container")[0]
           form.select("input")[0]["title"] = "zeus"
-          
+
+
+      # We just upload the image, there's a Tiny plugin installed in the site that optimizes the images automatically.
+      def upload_image(self):
+          image = FM.get_image()

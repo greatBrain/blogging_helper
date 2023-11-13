@@ -1,13 +1,12 @@
 import docx
 import modules.helpers as helpers
-import tinify #Tiny PNG API
-import os
+#import tinify #Tiny PNG API
 
 class File_Manager:          
       
       def __init__(self) -> None:
           self.data_file = None
-          self.files_directory = "../files" # Original dir where user downloads files.
+          self.image = None
 
       def read_document(self, _file):
           try:           
@@ -16,16 +15,26 @@ class File_Manager:
             return self.data_file          
 
           except Exception as e:  
-            return ("Something is wrong:", e)         
+            return ("Something is wrong:", e)    
+
+
+      def set_image(self, image):
+          self.image = image  
+
+
+      def get_image(self):
+          return self.image
       
-      def optimize_img(self, img_full_name, extension):          
+
+      #Instead optimizing the images at local, i installed the Tiny optimizer in the site.
+
+      '''def optimize_img(self, img_full_name, extension):          
           try:
               tinify.key = helpers.get_tinify_api() 
-              optimized_image = tinify.from_file(img_full_name).to_file(os.path.join(self.files_directory, "_optimized{}".format(extension)))             
-              
-              #return optimized_image
-              return True
-              
+              optimized_image = tinify.from_file(img_full_name).to_file(os.path.join(self.files_directory, "image_optimized{}".format(extension)))                                         
+              return True              
               
           except ConnectionError as  e:
-                 raise "Connection error: %s" % e.message
+                 raise "Connection error: %s" % e.message'''
+        
+      
