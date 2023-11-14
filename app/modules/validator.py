@@ -10,8 +10,8 @@ class Validator:
 
          try:
 
-            if file_name_splited[1] == '.docx':  
-               print(self.manager.read_document(file_full_path))
+            if file_name_splited[1] == '.docx':                 
+               self.manager.read_document(file_full_path)
 
             elif file_name_splited[1] in self.IMAGE_FORMATS:             
                #Instead optimizing the images at local, i installed the Tiny optimizer in the site.
