@@ -1,32 +1,27 @@
 import docx
-import json
+#import json
 
 class File_Manager:          
       
       def __init__(self):
           self.data_file = None
-          self.image = None
+          self.image_file = None
 
-      def read_document(self, _file):
-          
-          try:           
-            document_object = docx.Document(_file)                                      
-            
-            for item in document_object.paragraphs:
 
-                items = {
-                          "text":item.text, 
-                          "text_style_name":item.style.name,
-                        }
-                                          
-                json_response = json.dumps(items, indent=2)
-                print(json_response)
+      def set_data_docuement(self, data_file):
+          self.data_file = data_file
 
-          except Exception as e:  
-            return ("Something is wrong:", e) 
 
-      def set_image(self, image):
-          self.image = image
+      def set_image_file(self, image_file):
+          self.image_file = image_file
+
+
+      def get_data_document(self):                
+          document_object = docx.Document(self.data_file)
+
+          for item in document_object.paragraphs:
+              items = {"text":item.text, "text_style_name":item.style.name}              
+              yield items
 
       def get_image(self):
           return self.image

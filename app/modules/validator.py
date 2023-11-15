@@ -1,3 +1,5 @@
+''' Identifies what kind of file has been found, image or .docx.'''
+
 from  modules.file_manager import File_Manager
 
 class Validator:
@@ -11,14 +13,16 @@ class Validator:
          try:
 
             if file_name_splited[1] == '.docx':                 
-               self.manager.read_document(file_full_path)
+               self.manager.set_data_docuement(file_full_path)
 
-            elif file_name_splited[1] in self.IMAGE_FORMATS:             
-               #Instead optimizing the images at local, i installed the Tiny optimizer in the site.
-               #self.manager.optimize_img(file_full_path, file_name_splited[1])
-               self.manager.set_image(file_full_path)               
+               #Just for trial purposes
+               for i in self.manager.get_data_document():
+                   print(i)
 
-            return "Just .docx or an image format is accepted."
+            elif file_name_splited[1] in self.IMAGE_FORMATS:                            
+               self.manager.set_image_file(file_full_path)                
+
+            return "Just .docx or an image format is allowed."
          
          except FileNotFoundError as e:           
             raise ("Wrong file, try again.", e)
