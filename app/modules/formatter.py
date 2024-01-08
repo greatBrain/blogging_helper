@@ -22,23 +22,35 @@ class Formatter:
       
       #Filtering text by blocks.
       def _classify_text(self):   
-          yield list(map(lambda item : {self.TEXT_STYLES.get(item.style.name, 'Default Paragraph Style'): item.text}, self._get_text_from_file()))
-      
-      
-      def _get_formatted_text(self):
-          
-          body_text = {}
+          #In a refactor, this function will be converted into a generator, for more speed:
+          #yield list(map(lambda item : {self.TEXT_STYLES.get(item.style.name, 'Default Paragraph Style'): item.text}, self._get_text_from_file()))
 
-          for index, item in enumerate(self._classify_text()):              
-              return item
+          return list(map(lambda item : {self.TEXT_STYLES.get(item.style.name, 'Default Paragraph Style'): item.text}, self._get_text_from_file()))
+      
+      
+      def _format_text(self):          
+          data = self._classify_text()
+          body_text = {}
+          txt = []
+
+          #When the while loop starts, this will be set to 0.
+          index_counter = -1          
+
+          while index_counter <= len(data): 
+                index_counter +=1
+                
+                for item in data:
+                    if item.get('Body'):
+                       #txt.append(item['Body'])                   
+                       body_text = {"Body":''.join(item['Body'])}
+                    print(body_text)          
               
       
       def get_response(self):                    
-          print(self._get_formatted_text())
+          self._format_text()
       
       def run(self):
-          self.get_response()
-         
+          self.get_response()         
       
       __call__ = run
       #To be executed from the Validator class.         
