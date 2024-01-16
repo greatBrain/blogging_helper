@@ -10,7 +10,8 @@ class EventHandler(FileSystemEventHandler):
           file_full_path = Path(event.src_path)                             
           file_name_splited = os.path.splitext(Path(event.src_path).name)          
           validator = Validator()
-          validator.validate_files(file_full_path, file_name_splited)
+          validator.validate_files(file_full_path, file_name_splited)    
+     
 
 class Main:
      def __init__(self):
