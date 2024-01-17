@@ -1,6 +1,6 @@
 import json
 import docx
-import time
+from functools import reduce
 
 class Formatter:
 
@@ -22,42 +22,36 @@ class Formatter:
           return docx.Document(self._text_file).paragraphs
       
       #Filtering text by blocks.
-      def _classify_text(self):   
-          #In a refactor, this function will be 
-          #converted into a generator, for more speed and scalabillity:
-          #yield list(map(lambda item : {self.TEXT_STYLES.get(item.style.name, 'Default Paragraph Style'): item.text}, self._get_text_from_file()))
-          return list(map(lambda item : {self.TEXT_STYLES.get(item.style.name, 'Default Paragraph Style'): item.text}, self._get_text_from_file()))
-      
+      def _classify_text(self):
+          dirty_list = list(map(lambda item : {self.TEXT_STYLES.get(item.style.name, "Default Style"): item.text}, self._get_text_from_file()))          
+          filtered_list = [item for item in dirty_list if item.get("Body") !="" and item.get("Default Style") !=""] # Removes all empty dictionaries 
+          return filtered_list
       
       def _format_text(self):          
           data = self._classify_text()
           formatted_body_text = []
 
           #When while loop starts, this will be set to 0.
-          index_counter = -1          
+          index_counter = -1
 
           while index_counter <= len(data): 
-                index_counter +=1                              
+                index_counter +=1    
+                
+                for item in data:   
+                    #Puts everything of body together
+                    if item.get("Body"):
+                       formatted_body_text.append(item["Body"])
+                       data.remove(item)                       
 
-                for item in data:
-                   if item.get('Body'):
-                      if item['Body']=="": 
-                         data.remove(item)                                                                                             
-                      formatted_body_text.append(item['Body'])                      
-                      data.remove(item)
-
-
-          #if self.image!=None:
           data.append({'Body':formatted_body_text})
-          data.append(self.image)
-          json_obj = json.dumps(data, indent=4)
+          return data
+          #data.append(self.image)          
+
+
+      def get_response(self): 
+          json_obj = json.dumps(self._format_text(), indent=4)
           with open('data.json', 'w') as json_file:
               json_file.write(json_obj)
-
-
-      def get_response(self):  
-                            
-          self._format_text()
       
       def run(self):
           self.get_response()         
