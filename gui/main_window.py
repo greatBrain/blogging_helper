@@ -2,41 +2,39 @@ import tkinter
 import customtkinter
 import os
 from PIL import ImageTk, Image
-import app.main as main
+from app import observer
 
-#### IMPORTING APP MODULE NOT WORKING ####
 
 class MainWindow:
       def __init__(self) -> None:  
            self.mainDir = os.path.dirname(__file__)
            self.imagesDir = os.path.join(self.mainDir, "images")
            self.app = customtkinter.CTk()    
-           self.mode = customtkinter.set_appearance_mode("system")
+           self.mode = customtkinter.set_appearance_mode("dark")
            self.theme = customtkinter.set_default_color_theme("green")
            self.button = object
 
            #Images in button
-           self.turn_off_image = customtkinter.CTkImage(Image.open(os.path.join(self.imagesDir, "turn_off_icon.ico")), size=(155, 155))
-           self.turn_on_image = customtkinter.CTkImage(Image.open(os.path.join(self.imagesDir, "turn_on_icon.ico")), size=(155, 155))
+           self.turn_off_image = customtkinter.CTkImage(Image.open(os.path.join(self.imagesDir, "turned_off.png")), size=(150, 150))
+           self.turn_on_image = customtkinter.CTkImage(Image.open(os.path.join(self.imagesDir, "turned_on.png")), size=(150, 150))
 
-      def create_window(self):  
+           self.observer = observer.DirObserver()
+
+      def create_window(self) -> None:  
           self.app.title("")  
-          #Linux doesn't accept .ico as icon:
-          icon = ImageTk.PhotoImage(Image.open(os.path.join(self.imagesDir, "robotic-arm-logo.png")))  
+          icon = ImageTk.PhotoImage(Image.open(os.path.join(self.imagesDir, "robotic-arm-logo.png"))) #Linux doesn't accept .ico as icon:
           self.app.wm_iconphoto(True, icon)             
-          self.app.geometry("550x400")          
-          title_label = customtkinter.CTkLabel(master=self.app, text="Blogging Ayudante", font=("sans", 24))
-          title_label.pack(pady = 30)
+          self.app.geometry("480x650")          
+          title_label = customtkinter.CTkLabel(master=self.app, text="Blogger", font=("sans", 24))
+          title_label.pack(pady = 40)
           self.app.resizable(False, False)          
           self.create_button()
 
 
-      def create_button(self):
+      def create_button(self) -> None:
           self.button = customtkinter.CTkButton(master=self.app, 
                                                 text="",                                                 
-                                                image= self.turn_off_image,    
-                                                font=("Arial", 20),
-                                                border_spacing=(2),
+                                                image= self.turn_off_image,                                                    
                                                 hover=False,                                                
                                                 fg_color="transparent",
                                                 bg_color="transparent",
@@ -45,24 +43,14 @@ class MainWindow:
           self.button.pack(pady=20, padx=20)
           self.button.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
 
-    
-      def set_app_status(self, text):
-          app_status = text
-          return app_status
 
       def on_click(self):
+          signal = True #To start/stop observer
+
           if self.button._image==self.turn_off_image:
-             self.button.configure(image=self.turn_on_image)  
-             main.run()           
+             self.button.configure(image=self.turn_on_image)               
+             self.observer.run_observer(signal)
              
           else:
              self.button.configure(image=self.turn_off_image)
-
-      def run(self):    
-          return self.app.mainloop()  
-
-
-if __name__ == "__main__":
-    root = MainWindow()
-    root.create_window()
-    root.run()
+             self.observer.stop_observer(signal)
