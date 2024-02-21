@@ -26,10 +26,13 @@ class MainWindow:
           self.app.wm_iconphoto(True, icon)             
           self.app.geometry("480x650")          
           title_label = customtkinter.CTkLabel(master=self.app, text="Blogger", font=("sans", 24))
-          title_label.pack(pady = 40)
+          title_label.pack(pady = 30)
+
+          description_label = customtkinter.CTkLabel(master=self.app, text="Soy un ayudante para publicar tus blogs \n de forma mas eficiente y automatizada.", font=("Arial", 20))
+          description_label.pack(pady = 50)
+
           self.app.resizable(False, False)          
           self.create_button()
-
 
       def create_button(self) -> None:
           self.button = customtkinter.CTkButton(master=self.app, 
@@ -40,17 +43,16 @@ class MainWindow:
                                                 bg_color="transparent",
                                                 command=self.on_click                                                 
                                             )
-          self.button.pack(pady=20, padx=20)
+          self.button.pack(pady=15, padx=15)
           self.button.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
 
 
       def on_click(self):
-          signal = True #To start/stop observer
-
           if self.button._image==self.turn_off_image:
+             self.observer.run_observer()
              self.button.configure(image=self.turn_on_image)               
-             self.observer.run_observer(signal)
-             
-          else:
+
+          else:             
+             self.observer.stop_observer()
              self.button.configure(image=self.turn_off_image)
-             self.observer.stop_observer(signal)
+             

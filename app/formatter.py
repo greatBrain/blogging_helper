@@ -1,13 +1,11 @@
 import json
 import docx
-from functools import reduce
 
 class Formatter:
-
       def __init__(self, blog_entry_file_text, blog_entry_image):
           self._text_file = blog_entry_file_text
-
           self.image = blog_entry_image
+          #self.image = '/home/kira/Documents/workspaces/blogging_helper/files/example.jpg'
           
           self.TEXT_STYLES = {         
                   'Heading 3':'Category',         
@@ -31,27 +29,26 @@ class Formatter:
           data = self._classify_text()
           formatted_body_text = []
 
-          #When while loop starts, this will be set to 0.
+          # When while loop starts, this will be set to 0 to avoid the index out of range.
           index_counter = -1
 
           while index_counter <= len(data): 
-                index_counter +=1    
-                
+                index_counter +=1
+
                 for item in data:   
-                    #Puts everything of body together
+                    # Merge everything of body
                     if item.get("Body"):
                        formatted_body_text.append(item["Body"])
-                       data.remove(item)                       
+                       data.remove(item)
 
           data.append({'Body':formatted_body_text})
+          data.append({'image':self.image})
           return data
-          #data.append(self.image)          
-
 
       def get_response(self): 
           json_obj = json.dumps(self._format_text(), indent=4)
           with open('data.json', 'w') as json_file:
-              json_file.write(json_obj)
+               json_file.write(json_obj) 
       
       def run(self):
           self.get_response()         

@@ -1,48 +1,29 @@
-from app.formatter import Formatter #Provisional
-#from modules.response import Json_Response
+from app.formatter import Formatter
 
 class Validator:
-      def __init__(self): #file_full_path, file_name_splited=tuple
-          self.blog_entry_file_text = None
-          self.blog_entry_image = None
-          self.IMAGE_FORMATS = [".jpg", ".jpeg", ".JPG", ".JPEG", 
-                                ".png", ".PNG", ".webp", ".tiff", ".gif"
-                                ]
-      
-      '''def _validate_text_file(self):
-          pass
-      
-      def _validate_image_file(self):
-          pass
-      
+      def __init__(self):        
+          self.IMAGE_FORMATS = [".jpg", ".jpeg", ".JPG", ".JPEG",".png", ".PNG", ".webp", ".tiff", ".gif"]
 
-       #To make this class to behave as a method:
-      def run_validation():
-          pass     
-
-      __call__ = run_validation'''
-
-      def validate_files(self, file_full_path, file_name_splited=tuple):
-          try:               
+      def validate_files(self, file_absolute_path, file_name_splited=tuple):
+          try:
+             blog_entry_file_text:str=''
+             blog_entry_image:str=''
+             
              for ext in file_name_splited:
                  if ext == '.docx': 
-                    self.blog_entry_file_text = file_full_path
-                    self.formatter = Formatter(self.blog_entry_file_text, self.blog_entry_image)
+                    blog_entry_file_text = file_absolute_path
 
                  elif ext in self.IMAGE_FORMATS:
-                    self.blog_entry_image = file_full_path  
-                    self.formatter = Formatter(self.blog_entry_file_text, self.blog_entry_image)
-
-                 '''else:
-                    return False''' 
-                              
-             #self.formatter = Formatter(self.blog_entry_file_text, self.blog_entry_image)
+                    blog_entry_image = file_absolute_path             
              
-             """Running the 'Formatter' class as a function,
-             using the __call__ built-in method"""
-             self.formatter()    
+             if (blog_entry_file_text is not None) and (blog_entry_image is not None):
+                formatter = Formatter(blog_entry_file_text, blog_entry_image)
+                formatter() #Instance called as a method        
 
-               
+
+             '''if blog_entry_file_text is not None:
+                formatter = Formatter(blog_entry_file_text)
+                formatter() '''
          
           except FileNotFoundError as e:           
              raise ("Wrong file, try again.", e)
